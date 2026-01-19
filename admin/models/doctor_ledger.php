@@ -121,6 +121,31 @@ if (isset($_POST['view_indoor_private_records_doc_pay'])) {
 }
 /////////////////////Insert Doctor Payment Health card//////////////////
 ///////////////////////////////////////////////
+if (isset($_POST['get_cases_list'])) {
+
+    $query = "
+        SELECT DISTINCT i.pi_id
+        FROM ssh_p_indoor i
+        JOIN ssh_p_indoor_doctors d ON i.pi_id = d.pi_id
+        WHERE d.to_paid = '1'
+          AND i.admition_type = '0'
+        ORDER BY i.pi_id DESC
+    ";
+
+    $res = mysqli_query($con, $query);
+
+    while ($row = mysqli_fetch_assoc($res)) {
+        echo '<option value="'.$row['pi_id'].'">Case #'.$row['pi_id'].'</option>';
+    }
+    exit;
+}
+if (isset($_POST['get_cases_listcase'])) {
+    $cases = mysqli_query($con, "SELECT `S_ID`, `Title` FROM `ssh_cases_indoor` WHERE close = 1 ORDER BY `Title` ASC");
+    while ($case = mysqli_fetch_assoc($cases)) {
+        echo '<option value="'.$case['S_ID'].'">'.$case['Title'].'</option>';
+    }
+    exit;
+}
 if (isset($_POST['doctor_paid_indoor_private'])) {
     $doctor_paid_indoor = $_POST['doctor_paid_indoor_private'];
     $get_total_payment = $_POST['get_total_payment'];
