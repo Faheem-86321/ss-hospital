@@ -5,6 +5,34 @@ include_once("../../env/main_config.php");
 
 /////////////////////Update charges//////////////////
 ///////////////////////////////////////////////
+if (isset($_POST['get_patient_info'])) {
+    $pid = $_POST['get_patient_info'];
+    $view_data = "SELECT * FROM ssh_p_reg WHERE P_ID = '".$pid."'";
+    $view_data_ex = mysqli_query($con,$view_data);
+
+    if ($row = mysqli_fetch_assoc($view_data_ex)) {
+        echo "
+        <div class='row'>
+            <div class='form-group col-md-6'>
+                <label>Name</label>
+                <input type='text' class='form-control' value='".htmlspecialchars($row['Name'])."' name='pat_Name_update' readonly>
+            </div>
+            <div class='form-group col-md-6'>
+                <label>Age</label>
+                <input type='number' class='form-control' value='".htmlspecialchars($row['age'])."' name='pat_Age_update' readonly>
+            </div>
+            <div class='form-group col-md-6'>
+                <label>Phone</label>
+                <input type='number' class='form-control' value='".htmlspecialchars($row['phone'])."' name='pat_Phone_update' readonly>
+            </div>
+            <div class='form-group col-md-6'>
+                <label>Gender</label>
+                <input type='text' class='form-control' value='".ucwords($row['gender'])."' name='pat_gender_update' readonly>
+            </div>
+        </div>";
+    }
+}
+
 if (isset($_POST['charges_update'])) {
     $charges_update = $_POST['charges_update'];
     $view_data = "Select ssh_p_reg.Name AS p_name, ssh_p_dpr.MRN,ssh_p_dpr.Charges,ssh_p_dpr.Paid, ssh_dr_reg.Name AS d_name,ssh_dr_reg.Shares,ssh_dr_reg.Wages From ssh_p_dpr
@@ -125,4 +153,13 @@ if (isset($_POST['get_doctor_fee'])) {
 
     <?php }
 }
+
+if (isset($_POST['load_patients'])) {
+    $patients = mysqli_query($con,"SELECT * FROM ssh_p_reg ORDER BY Name ASC");
+    while($p = mysqli_fetch_assoc($patients)){
+        echo "<option value='".$p['P_ID']."'>".ucwords($p['Name'])." (".$p['phone'].")</option>";
+    }
+    exit;
+}
+
 ?>

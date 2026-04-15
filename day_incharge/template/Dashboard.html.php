@@ -2,7 +2,7 @@
 // This if else condition will be same
 if(mysqli_num_rows($execuit)>0){
 	?>
-    <?php header("location: health_card_indoor_dashboard") ?>
+    <?php header("location: private_indoor_dashboard") ?>
 <script>
 
 </script>	

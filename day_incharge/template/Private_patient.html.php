@@ -168,7 +168,7 @@
         <div class="card-body" dir="ltr">
             
             <a href="private_patient?view_admit=1" id="" class="btn mr-1 "  style="background: #f24c4f; color: black;float: left;" ><i class="fa fa-eye "></i> View Admited Patients </a>
-            <a href="private_patient?view_discharged=1" id="" class="btn mr-1 "  style="background: #f24c4f; color: black;float: left;" ><i class="fa fa-eye "></i> View Today Discharged Patients </a>
+             <a href="private_patient?view_discharged=1" id="" class="btn mr-1 "  style="background: #f24c4f; color: black;float: left;" ><i class="fa fa-eye "></i> View Today Discharged Patients </a>
             <button id="onloadclick" class="btn " data-toggle="modal" data-target="#add-custom-modal" style="background: #f24c4f; color: black;float: left;" ><i class="mdi mdi-plus-circle "></i> Add Private Patient </button>
             <div class="card-widgets ">
                 <a href="javascript: void(0);" onclick="reloadtablecontent()" data-toggle="reload"><i class="mdi mdi-refresh"></i></a>

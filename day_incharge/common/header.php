@@ -222,29 +222,7 @@
         <div id="sidebar-menu">
             <ul id="side-menu" >
                 
-                <li class="menu-title mt-2 text-white">Health Card Indoor</li>
-                <li>
-                    <a href="#sidebaruser2_health" data-toggle="collapse" class="text-white">
-                        <i class="fa fa-wheelchair"></i>
-                        <span> Health Card Indoor </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebaruser2_health" class="text-white">
-                        <ul class="nav-second-level">
-
-                            <li>
-                                <a href="health_card_indoor_dashboard" class="text-white"><i class="fa fa-arrow-right mr-1"> </i> Dashboard</a>
-                            </li>
-                            <li>
-                                <a href="health_card_patient" class="text-white"><i class="fa fa-arrow-right mr-1"> </i> Health Card Patient</a>
-                            </li>
-
-                            <li>
-                                <a href="health_card_dialysis" class="text-white"><i class="fa fa-arrow-right mr-1"> </i> Health Card Dialysis</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li> 
+                
                 <li class="menu-title mt-2 text-white">Private Indoor</li>
                 <li>
                     <a href="#sidebaruser2" data-toggle="collapse" class="text-white">
@@ -311,6 +289,29 @@
                         </ul>
                     </div>
                 </li>
+                <li class="menu-title mt-2 text-white">Health Card Indoor</li>
+                <li>
+                    <a href="#sidebaruser2_health" data-toggle="collapse" class="text-white">
+                        <i class="fa fa-wheelchair"></i>
+                        <span> Health Card Indoor </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebaruser2_health" class="text-white">
+                        <ul class="nav-second-level">
+
+                            <li>
+                                <a href="health_card_indoor_dashboard" class="text-white"><i class="fa fa-arrow-right mr-1"> </i> Dashboard</a>
+                            </li>
+                            <li>
+                                <a href="health_card_patient" class="text-white"><i class="fa fa-arrow-right mr-1"> </i> Health Card Patient</a>
+                            </li>
+
+                            <li>
+                                <a href="health_card_dialysis" class="text-white"><i class="fa fa-arrow-right mr-1"> </i> Health Card Dialysis</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li> 
                 <li class="menu-title mt-2 text-white">Health Card Files</li>
                 <li>
                     <a href="#sidebaruser2_health_files" data-toggle="collapse" class="text-white">

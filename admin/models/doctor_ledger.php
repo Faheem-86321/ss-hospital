@@ -121,31 +121,6 @@ if (isset($_POST['view_indoor_private_records_doc_pay'])) {
 }
 /////////////////////Insert Doctor Payment Health card//////////////////
 ///////////////////////////////////////////////
-if (isset($_POST['get_cases_list'])) {
-
-    $query = "
-        SELECT DISTINCT i.pi_id
-        FROM ssh_p_indoor i
-        JOIN ssh_p_indoor_doctors d ON i.pi_id = d.pi_id
-        WHERE d.to_paid = '1'
-          AND i.admition_type = '0'
-        ORDER BY i.pi_id DESC
-    ";
-
-    $res = mysqli_query($con, $query);
-
-    while ($row = mysqli_fetch_assoc($res)) {
-        echo '<option value="'.$row['pi_id'].'">Case #'.$row['pi_id'].'</option>';
-    }
-    exit;
-}
-if (isset($_POST['get_cases_listcase'])) {
-    $cases = mysqli_query($con, "SELECT `S_ID`, `Title` FROM `ssh_cases_indoor` WHERE close = 1 ORDER BY `Title` ASC");
-    while ($case = mysqli_fetch_assoc($cases)) {
-        echo '<option value="'.$case['S_ID'].'">'.$case['Title'].'</option>';
-    }
-    exit;
-}
 if (isset($_POST['doctor_paid_indoor_private'])) {
     $doctor_paid_indoor = $_POST['doctor_paid_indoor_private'];
     $get_total_payment = $_POST['get_total_payment'];
@@ -222,6 +197,7 @@ if (isset($_POST['view_outdoor_records'])) {
     $discount = 0;
     ?>
 
+    
     <div class="col-md-12 text-center card-table-style " id="cardCollpase4"> 
        <link href="../assets/datatable/buttons.dataTables.min.css" rel="stylesheet"/>
        <link href="../assets/datatable/jquery.dataTables.min.css" rel="stylesheet"/>
@@ -348,6 +324,7 @@ if (isset($_POST['view_indoor_private_records'])) {
 
         </tr>
         <?php
+
         $sr_no =1;
         $fetch_data = "SELECT * FROM ssh_p_indoor JOIN ssh_p_indoor_doctors ON ssh_p_indoor.pi_id = ssh_p_indoor_doctors.pi_id LEFT JOIN ssh_cases_indoor ON ssh_cases_indoor.S_ID = ssh_p_indoor.S_ID  LEFT JOIN ssh_p_reg ON ssh_p_reg.P_ID = ssh_p_indoor.P_ID  WHERE ssh_p_indoor_doctors.D_ID ='".$view_indoor_records."' AND ssh_p_indoor.admition_type = '".$whichone."' AND ssh_p_indoor_doctors.to_paid = '0' Order By ssh_p_indoor.admit_date DESC";
         $fetch_data_ex = mysqli_query($con,$fetch_data);
@@ -655,62 +632,92 @@ if (isset($_POST['view_indoor_private_records'])) {
             }
 /////////////////////View Indoor Record//////////////////
 ///////////////////////////////////////////////
-            if (isset($_POST['view_indoor_private_records_reports'])) {
-                $view_indoor_records = $_POST['view_indoor_private_records_reports'];
-                $whichone = $_POST['whichone'];
-                $date_from = $_POST['date_from'];
-                $date_to = $_POST['date_to'];
-                $total = 0;
-                $sr_no =1;
-                ?>
-                <table class="table table-striped table-bordered ">
-                    <thead><tr style="background: lightgrey;">
-                        <th colspan="6" class="text-center">Indoor</th>
-                    </tr>
-                    <tr>
-                        <th>Sr No</th>
-                        <th>Patient</th>
-                        <th>Case</th>
-                        <th>Total Payment</th>
-                        <th>Doctor Fee</th>
-                        <th>Hospital Share</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $fetch_data = "SELECT *,ssh_p_indoor.Paid as Paid FROM ssh_p_indoor JOIN ssh_p_indoor_doctors ON ssh_p_indoor.pi_id = ssh_p_indoor_doctors.pi_id LEFT JOIN ssh_cases_indoor ON ssh_cases_indoor.S_ID = ssh_p_indoor.S_ID  LEFT JOIN ssh_p_reg ON ssh_p_reg.P_ID = ssh_p_indoor.P_ID  WHERE ssh_p_indoor_doctors.D_ID ='".$view_indoor_records."' AND ssh_p_indoor.admition_type = '".$whichone."' AND ssh_p_indoor_doctors.to_paid = '1' AND ssh_p_indoor.admit_date BETWEEN '".$date_from."' AND '".$date_to."'  ";
-                    $fetch_data_ex = mysqli_query($con,$fetch_data);
-                    foreach($fetch_data_ex as $row){ ?>
-                        <tr>
-                            <td><?php echo $sr_no ?></td>
-                            <td><?php echo $row['Name'] ?></td>
-                            <td><?php echo $row['Title'] ?></td>
+        if (isset($_POST['view_indoor_private_records_reports'])) {
+    $view_indoor_records = $_POST['view_indoor_private_records_reports'];
+    $whichone            = $_POST['whichone'];
+    $date_from           = $_POST['date_from'];
+    $date_to             = $_POST['date_to'];
+    $sr_no               = 1;
+    ?>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr style="background: lightgrey;">
+                <th colspan="8" class="text-center">Indoor</th>
+            </tr>
+            <tr>
+                <th>Sr No</th>
+                <th>Patient</th>
+                <th>Case</th>
+                <th>Admission Date</th>
+                <th>Discharge Date</th>
+                <th>Total Payment</th>
+                <th>Doctor Fee</th>
+                <th>Hospital Share</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $fetch_data = "
+                SELECT 
+                    p.pi_id,
+                    pr.Name,
+                    ci.Title,
+                    p.Paid,
+                    p.admit_date,
+                    p.exit_date,
+                    d.D_Fee,
+                    p.Paid - all_docs.total_fee AS hospital_share
+                FROM ssh_p_indoor p
+                JOIN ssh_p_indoor_doctors d ON p.pi_id = d.pi_id
+                LEFT JOIN ssh_cases_indoor ci ON ci.S_ID = p.S_ID
+                LEFT JOIN ssh_p_reg pr ON pr.P_ID = p.P_ID
+                JOIN (
+                    SELECT pi_id, SUM(D_Fee) AS total_fee
+                    FROM ssh_p_indoor_doctors
+                    GROUP BY pi_id
+                ) all_docs ON p.pi_id = all_docs.pi_id
+                WHERE d.to_paid = '1'
+                  AND p.admition_type = '" . $whichone . "'
+                  AND CONVERT(p.admit_date, DATE) BETWEEN '" . $date_from . "' AND '" . $date_to . "'
+                  AND d.D_ID = '" . $view_indoor_records . "'
+            ";
 
-                            <td><?php echo $row['Paid'] ?></td>
-                            <td><?php echo $row['D_Fee'] ?></td>
+            $fetch_data_ex = mysqli_query($con, $fetch_data);
 
-                            <td><?php echo $row['Paid']-$row['D_Fee'] ?></td>
-                        </tr>
+            $total_paid           = 0;
+            $total_doctor_fee     = 0;
+            $total_hospital_share = 0;
 
-                        <?php
-                        $sr_no++;
-                        $total += $row['D_Fee'];
-                    }
-                    ?>
-                </tbody>
-                <tfoot>
-                    <tr style="background: lightgrey;text-align: center;">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><b>Total Indoor Payment: </b> </td>
-                        <td><?php echo $total ?></td>
-                        <td></td>
-                    </tr>
-                </tfoot>
-            </table>
-            <?php 
-        }
+            foreach ($fetch_data_ex as $row) { ?>
+                <tr>
+                    <td><?php echo $sr_no ?></td>
+                    <td><?php echo $row['Name'] ?></td>
+                    <td><?php echo $row['Title'] ?></td>
+                    <td><?php echo !empty($row['admit_date']) ? date('d-M-Y', strtotime($row['admit_date'])) : '-' ?></td>
+                    <td><?php echo !empty($row['exit_date'])  ? date('d-M-Y', strtotime($row['exit_date']))  : 'Not Discharged' ?></td>
+                    <td><?php echo $row['Paid'] ?></td>
+                    <td><?php echo $row['D_Fee'] ?></td>
+                    <td><?php echo $row['hospital_share'] ?></td>
+                </tr>
+                <?php
+                $sr_no++;
+                $total_paid           += $row['Paid'];
+                $total_doctor_fee     += $row['D_Fee'];
+                $total_hospital_share += $row['hospital_share'];
+            }
+            ?>
+        </tbody>
+        <tfoot>
+            <tr style="background: lightgrey; text-align: center; font-weight: bold;">
+                <td colspan="5">Totals</td>
+                <td><?php echo $total_paid ?></td>
+                <td><?php echo $total_doctor_fee ?></td>
+                <td><?php echo $total_hospital_share ?></td>
+            </tr>
+        </tfoot>
+    </table>
+    <?php
+}
 /////////////////////Insert Doctor Payment//////////////////
 ///////////////////////////////////////////////
         if (isset($_POST['doctor_paid_oudoor'])) {

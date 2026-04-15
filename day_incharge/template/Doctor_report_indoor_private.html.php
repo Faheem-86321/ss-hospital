@@ -1,6 +1,6 @@
 <button id="updateinfobutton" hidden class="btn " data-toggle="modal" data-target="#updateinfo" style="background: #21325E; color: white;" ><i class="mdi mdi-plus-circle mr-2"></i> View Records </button>
 <div class="modal fade" id="updateinfo" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header ">
                 <h4 class="modal-title" id="myCenterModalLabel"> View Records</h4>
@@ -65,7 +65,30 @@
                                 <tbody>
                                     <?php 
                                     $sr_no = 1;
-                                    $fetch_data = "Select *,count(ssh_p_indoor.pi_id) as numberofcase,SUM(ssh_p_indoor_doctors.D_Fee) AS fee,SUM(ssh_p_indoor.Paid) as Paid from ssh_p_indoor JOIN ssh_p_indoor_doctors ON ssh_p_indoor.pi_id = ssh_p_indoor_doctors.pi_id JOIN ssh_dr_reg ON ssh_p_indoor_doctors.D_ID = ssh_dr_reg.D_ID Where ssh_p_indoor_doctors.to_paid = '1' AND ssh_p_indoor.admition_type = '0' AND CONVERT(ssh_p_indoor.admit_date,Date) BETWEEN '".$_GET['date_from']."' AND '".$_GET['date_to']."' AND ssh_p_indoor_doctors.D_ID = '".$_GET['doc_id']."' GROUP BY ssh_p_indoor_doctors.D_ID";
+                 $fetch_data = "
+SELECT 
+    d.D_ID,
+    dr.Name,
+    COUNT(DISTINCT p.pi_id) AS numberofcase,
+    SUM(d.D_Fee) AS doctor_fee,
+    SUM(p.Paid) AS total_paid,
+    SUM(p.Paid) - SUM(all_docs.total_fee) AS hospital_share
+FROM ssh_p_indoor p
+JOIN ssh_p_indoor_doctors d ON p.pi_id = d.pi_id
+JOIN ssh_dr_reg dr ON d.D_ID = dr.D_ID
+JOIN (
+    SELECT pi_id, SUM(D_Fee) AS total_fee
+    FROM ssh_p_indoor_doctors
+    GROUP BY pi_id
+) all_docs ON p.pi_id = all_docs.pi_id
+WHERE d.to_paid = '1'
+  AND p.admition_type = '0'
+  AND CONVERT(p.admit_date, DATE) 
+      BETWEEN '".$_GET['date_from']."' AND '".$_GET['date_to']."'
+  AND d.D_ID = '".$_GET['doc_id']."'
+GROUP BY d.D_ID";
+
+
                                     $fetch_data_ex = mysqli_query($con,$fetch_data);
                                     foreach($fetch_data_ex as $row){ 
                                         ?>
@@ -76,12 +99,19 @@
                                             
                                             <input type="date" id="date_from" value="<?php echo $_GET['date_from'] ?>" hidden>
                                             <input type="date" id="date_to" value="<?php echo $_GET['date_to'] ?>" hidden>
+<td>
+  <?php echo $row['numberofcase'] ?>
+  <button class='btn btn-success ml-1' 
+          onclick='view_indoor_private(<?php echo $row['D_ID'] ?>,0);' 
+          style='padding: 4px 4px; float:right;'>
+      <i class='fa fa-eye'></i>
+  </button>
+</td>
 
-                                            <td><?php echo $row['numberofcase']  ?><button class='btn btn-success ml-1' onclick='view_indoor_private(<?php echo $row['D_ID'] ?>,0);' style='padding: 4px 4px; float:right;'><i class='fa fa-eye'> </i></button></td>
+<td><?php echo $row['total_paid'] ?></td>
+<td><?php echo $row['doctor_fee'] ?></td>
+<td><?php echo $row['hospital_share'] ?></td>
 
-                                            <td><?php echo $row['Paid']  ?></td>
-                                            <td><?php echo $row['fee']  ?></td>                                           
-                                            <td><?php echo $row['Paid']-$row['fee']  ?></td>
                                         </tr> 
 
                                     <?php } ?>    
