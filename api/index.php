@@ -3,7 +3,7 @@
 header('Content-Type: application/json');
 
 $con = mysqli_connect(
-    getenv('DB_HOST'),
+    getenv('srv1934.hstgr.io'),
     getenv('DB_USERNAME'),
     getenv('DB_PASSWORD'),
     getenv('DB_DATABASE'),
