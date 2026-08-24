@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-$dbhost = 'localhost';
-$dbuser = '';
-$dbpass = '';
-$dbname = '';
+$dbhost = 'srv1934.hstgr.io';
+$dbuser = 'u719432153_Faheem';
+$dbpass = '$Bf1Yl=QAYZb';
+$dbname = 'u719432153_Faheem';
 
 $con = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
