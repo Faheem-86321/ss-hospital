@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 $con = mysqli_connect(
     getenv('srv1934.hstgr.io'),
     getenv('u719432153_Faheem'),
-    getenv('DB_PASSWORD'),
+    getenv('$Bf1Yl=QAYZb'),
     getenv('u719432153_Faheem'),
     (int) (getenv('DB_PORT') ?: 3306)
 );
