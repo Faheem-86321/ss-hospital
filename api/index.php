@@ -1,5 +1,24 @@
 <?php
 
-header('Content-Type: text/html; charset=utf-8');
+header('Content-Type: application/json');
 
-echo "PHP API is working!";
+$con = mysqli_connect(
+    getenv('DB_HOST'),
+    getenv('DB_USERNAME'),
+    getenv('DB_PASSWORD'),
+    getenv('DB_DATABASE'),
+    (int) (getenv('DB_PORT') ?: 3306)
+);
+
+if (!$con) {
+    echo json_encode([
+        'success' => false,
+        'error' => mysqli_connect_error()
+    ]);
+    exit;
+}
+
+echo json_encode([
+    'success' => true,
+    'message' => 'Database connected successfully'
+]);
