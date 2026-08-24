@@ -2,9 +2,9 @@
 session_start();
 
 $dbhost = 'localhost';
-$dbuser = 'root';
-$dbpass = '';
-$dbname = 'ss_hospital';
+$dbuser = 'u719432153_Faheem';
+$dbpass = '$Bf1Yl=QAYZb';
+$dbname = 'u719432153_Faheem';
 
 $con = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
