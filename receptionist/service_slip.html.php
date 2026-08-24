@@ -54,7 +54,7 @@ if(isset($_GET['slip'])) {
                         <h3><?php echo $row['service'] ?></h3>
                     </div>
                     <div class="col-6 text-center">
-                        <h6><b>Date:</b> <?php echo $row['date'] ?></h6>
+                        <h6><b>Date:</b> <?php echo $row['date'] ?> &nbsp; <b>Time:</b> <?php echo date('H:i:s', strtotime($row['date'])) ?></h6>
                         <?php
                         date_default_timezone_set("Asia/Karachi");
                         $fetch_data2 = "SELECT * 

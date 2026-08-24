@@ -48,7 +48,7 @@ if(isset($_GET['slip'])) {
                         <h4><?php echo $row['Title'] ?></h4>
                     </div>
                     <div class="col-6 text-center">
-                        <h6><b>Date:</b> <?php echo $row['admit_date'] ?></h6>
+                        <h6><b>Date:</b> <?php echo $row['admit_date'] ?> &nbsp; <b>Time:</b> <?php echo date('H:i:s', strtotime($row['admit_date'])) ?></h6>
                         <h5>Room No: <?php echo $row['room_no'] ?></h5>
                     </div>
                 </div>

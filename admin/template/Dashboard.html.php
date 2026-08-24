@@ -125,6 +125,13 @@ if(mysqli_num_rows($execuit)>0){
 
     <div class="container-fluid">
         <div class="row">
+            <div class="col-12 mb-3">
+                <a href="?page=all_reports" class="btn btn-danger btn-lg" style="font-size:18px;">
+                    <i class="fa fa-chart-bar"></i> &nbsp; View All Reports
+                </a>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-6 col-sm-6">

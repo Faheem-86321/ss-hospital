@@ -67,7 +67,7 @@ if (isset($_GET['slip'])) {
                                 <h2>Dialysis</h2>
                             </div>
                             <div class="col-md-6 text-center">
-                                <h5><b>Date: </b> <?php echo $row['date']; ?></h5>
+                                <h5><b>Date: </b> <?php echo $row['date']; ?> &nbsp; <b>Time:</b> <?php echo date('H:i:s', strtotime($row['date'])); ?></h5>
                                 <?php 
                                 // Generate Token count for today
                                 $fetch_data2 = "SELECT * FROM ssh_p_dialysis WHERE Date = '".date('Y-m-d')."'";

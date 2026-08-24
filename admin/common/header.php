@@ -416,6 +416,12 @@ window.onload = function() {
                 </li>
                 <li class="menu-title mt-2 text-white">Reports</li>
                 <li>
+                    <a href="?page=all_reports" class="text-white" style="background:#f24c4f;border-radius:4px;">
+                        <i class="fa fa-chart-bar"></i>
+                        <span> <b>All Reports</b> </span>
+                    </a>
+                </li>
+                <li>
                     <a href="#sidebaruser-1" data-toggle="collapse" class="text-white">
                         <i class="fa fa-file"></i>
                         <span> Reports </span>

@@ -56,7 +56,7 @@ if(isset($_GET['slip'])) {
                         <h4><?php echo $row['d_name'] ?></h4>
                     </div>
                     <div class="col-6 text-center">
-                        <h5><b>Date:</b> <?php echo date('Y-m-d',strtotime($row['A_Date'])) ?></h5>
+                        <h5><b>Date:</b> <?php echo date('Y-m-d',strtotime($row['A_Date'])) ?> &nbsp; <b>Time:</b> <?php echo date('H:i:s',strtotime($row['A_Date'])) ?></h5>
                         <?php 
                         $fetch_data2 = "SELECT COUNT(ssh_p_dpr.MRN) AS token 
                             FROM ssh_p_dpr 

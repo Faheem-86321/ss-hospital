@@ -31,7 +31,7 @@ if(isset($_GET['slip'])) {
 								<h1> Dialysis </h1>
 							</div>
 							<div class="col-md-6 text-center">
-								<h5><b>Date: </b> <?php echo $row['date'] ?></h5><?php  date_default_timezone_set("Asia/Karachi");
+								<h5><b>Date: </b> <?php echo $row['date'] ?> &nbsp; <b>Time:</b> <?php echo date('H:i:s', strtotime($row['date'])) ?></h5><?php  date_default_timezone_set("Asia/Karachi");
 								$fetch_data2 = "SELECT * FROM ssh_p_dialysis WHERE Date = '".date('Y-m-d')."'";
 								$fetch_data2_ex = mysqli_query($con,$fetch_data2); ?>
 								<h1>Token: <?php echo mysqli_num_rows($fetch_data2_ex) ?></h1>
