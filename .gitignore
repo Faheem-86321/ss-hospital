@@ -33,3 +33,4 @@ env/
 *.zip
 *.tar
 *.rar
+.vercel
