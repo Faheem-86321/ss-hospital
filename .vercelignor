@@ -1,1 +1,9 @@
 
+# Exclude these files/folders
+.git
+.gitignore
+README.md
+*.log
+
+# IMPORTANT: Make sure web_temp is NOT excluded
+# Don't add web_temp here!
