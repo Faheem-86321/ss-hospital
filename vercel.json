@@ -1,15 +1,12 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "api/index.php",
-      "use": "vercel-php@0.7.3"
-    }
+    { "src": "**/*.php", "use": "vercel-php@0.7.3" },
+    { "src": "assets/**", "use": "@vercel/static" },
+    { "src": "images/**", "use": "@vercel/static" }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/api/index.php"
-    }
+    { "src": "^/$", "dest": "/web_temp/login.html.php" },
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
