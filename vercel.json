@@ -10,13 +10,5 @@
       "src": "/(.*)",
       "dest": "/api/index.php"
     }
-  ],
-  "build": {
-    "env": {
-      "PHP_VERSION": "8.2"
-    }
-  },
-  "include": [
-    "web_temp/**/*"
   ]
 }
