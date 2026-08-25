@@ -8,10 +8,14 @@
 <?php 
 	ob_start();
 session_start();
+include_once("../helpers.php");
+
 if(!isset($_GET['page'])){
 	$_GET['page']= "dashboard";
 }
-if(file_exists("controller/". $_GET['page'].".php")) 
+$controller_path = ci_path("controller/". $_GET['page'].".php");
+$template_path = ci_path("template/". $_GET['page'].".html.php");
+if($controller_path !== false && $template_path !== false) 
 {
 
 	/* Common Header */
@@ -27,10 +31,10 @@ if(file_exists("controller/". $_GET['page'].".php"))
 	/* include Body */
 	
 	// incldue Controller here
-	include_once("controller/". $_GET['page'].".php");
+	include_once($controller_path);
 	
 	// incldue template here
-	include_once("template/". $_GET['page'].".html.php");
+	include_once($template_path);
 	
 	/* Common Footer */
 	include_once("common/footer.php");

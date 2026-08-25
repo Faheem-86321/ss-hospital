@@ -6,7 +6,7 @@
     { "src": "images/**", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "^/$", "dest": "/web_temp/login.html.php" },
+    { "src": "^/$", "dest": "/index.php" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
 }
