@@ -1,6 +1,7 @@
 <?php 
 include_once '../env/main_config.php';
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Chechk Valid User /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Check Valid User /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if (isset($_POST['logintyww'])) {
   ob_start();
   session_start();
@@ -25,22 +26,24 @@ if (isset($_POST['logintyww'])) {
       setcookie('profile_pic', $log_sql_ex1['profile_pic'],time()+(60*60*24*30),'/');
       $_SESSION['uname'] = $log_sql_ex1['fname']." ".$log_sql_ex1['lname'];
       setcookie('uname', $_SESSION['uname'],time()+(60*60*24*30),'/');
-    }if ($_SESSION['user_type'] == 'admin') {
-      header('Location: ../admin/dashboard');
-    }elseif ($_SESSION['user_type'] == 'receptionist') {
-      header('Location: ../receptionist/dashboard');
-    }elseif ($_SESSION['user_type'] == 'day_incharge') {
-      header('Location: ../day_incharge/dashboard');
-    }else{
+    }
+    
+    // Redirect based on user type - using Vercel-friendly paths
+    if ($_SESSION['user_type'] == 'admin') {
+      header('Location: ../admin/index.php?page=dashboard');
+    } elseif ($_SESSION['user_type'] == 'receptionist') {
+      header('Location: ../receptionist/index.php?page=dashboard');
+    } elseif ($_SESSION['user_type'] == 'day_incharge') {
+      header('Location: ../day_incharge/index.php?page=dashboard');
+    } else {
       echo "Page Not Found";
     }
-  }
-  else{
+  } else {
     $_SESSION['loginfail'] = "<div class='alert alert-danger' style = 'text-align : center;'><strong>Please enter correct username and password!!</strong></div>";
-    header('Location: ../login');
-    
+    header('Location: ../index.php?page=login');
   }
 }
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Forgot Password /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if(isset($_POST['getpassword'])){
   $useremailfornewpass = $_POST['useremailfornewpass'];
@@ -61,13 +64,9 @@ if(isset($_POST['getpassword'])){
     $urltoken = base64_encode(json_encode($data));
     $urllink = "https://".$_SERVER['HTTP_HOST']."/create_password?registration_id=".$urltoken."";
     $IhreNachricht = "You are almost there! Please click the link below to Create New password !<br><br>
-
     <a href='".$urllink."'>Create Password</a><br><br>
-
     This link will expire after exactly 2 hours<br>
-
     If you have any questions, feel free to reply to this email and we will be more than happy to help!<br><br><br><br>
-
     ".$_SESSION['com_name']." :)";
     $sender = $_SESSION['com_email'];
     $recipient = $useremailfornewpass;
@@ -82,17 +81,14 @@ if(isset($_POST['getpassword'])){
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
     <title>Supermums CRM</title>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
-
     <style type='text/css'>
     a[x-apple-data-detectors] {color: inherit !important;}
     </style>
-
     </head>
     <body style='margin: 0; padding: 0;'>
     <table role='presentation' border='0' cellpadding='0' cellspacing='0' width='100%'>
     <tr>
     <td style='padding: 20px 0 30px 0;'>
-
     <table align='center' border='0' cellpadding='0' cellspacing='0' width='600' style='border-collapse: collapse; border: 1px solid #cccccc;'>
     <tr>
     <td align='center' style='padding: 40px 0 30px 0;'>
@@ -119,17 +115,14 @@ if(isset($_POST['getpassword'])){
     <tr>
     <td style='color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;'>
     <p style='margin: 0;'>
-
     <h4>".$_SESSION['com_address']."</h4>
     </p>
-
     </td>
     </tr>
     </table>
     </td>
     </tr>
     </table>
-
     </td>
     </tr>
     </table>
@@ -137,12 +130,7 @@ if(isset($_POST['getpassword'])){
     </html>";
     mail($recipient, $subject, $message, $headers);
     $_SESSION['msg'] = "<div class='alert alert-success' style = 'text-align : center;'><strong>Please Confirm your email to reset the password!!</div>";
-    header("Location: ../login ");
+    header("Location: ../index.php?page=login");
   }
 }
-
 ?>
-
-
-
-
