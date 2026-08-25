@@ -3,7 +3,7 @@ session_start();
 ob_start(); 
 
 if(!isset($_GET['page'])){
-    $_GET['page'] = "login";
+    $_GET['page'] = "Login";
 }
 
 // Try both lowercase and uppercase versions of the filename
